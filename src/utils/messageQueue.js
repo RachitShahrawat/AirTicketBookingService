@@ -3,7 +3,7 @@ const {MESSAGE_BROKER_URL,EXCHANGE_NAME}=require('../config/serverConfig');
 
 const createChannel=async()=>{
     try{
-        const connection=await amqplib.connect(MESSAGE_BROKER_URL);
+        const connection=await amqplib.connect(MESSAGE_BROKER_URL);// this connect function will return us a connection object. 
         const channel=await connection.createChannel();
         await channel.assertExchange(EXCHANGE_NAME,'direct',false);
         return channel;
@@ -15,7 +15,7 @@ const createChannel=async()=>{
 
  const subscribeMessage=async (channel,service,binding_key)=>{
     try{
-    const applicationQueue=await channel.assertQueue('QUEUE_NAME');//it checks whether queue is there or not 
+    const applicationQueue=await channel.assertQueue('QUEUE_NAME');//it checks whether queue is there or not. if it is not there,it creates the queue. 
 
     channel.bindQueue(applicationQueue.queue,EXCHANGE_NAME,binding_key);
 
